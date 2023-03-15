@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <script src="https://ru.js.cx/test/libs.js"></script>
+  <script>
+    describe("getUsers", function () {
+
+      it("gets users from GitHub", async function () {
+        let users = await getUsers(['iliakan', 'remy', 'no.such.users']);
+        assert.equal(users[0].login, 'iliakan');
+        assert.equal(users[1].login, 'remy');
+        assert.equal(users[2], null);
+      });
+
+    });
+  </script>
+  <script>
+    getUsers(['iliakan', 'remy', 'no.such.users']);
+
+    async function getUsers(names) {
+      let users = [];
+
+      for (const user of names) {
+        let result = fetch(`https://api.github.com/users/${user}`)
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              return null
+            }
+          });
+        users.push(result);
+      }
+      let results = await Promise.all(users);
+      console.log(results);
+      return results
+    }
+  </script>
+</body>
+
+</html>

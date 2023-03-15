@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 4px;
+    }
+
+    th {
+      cursor: pointer;
+    }
+
+    th:hover {
+      background: yellow;
+    }
+  </style>
+</head>
+
+<body>
+  <table id="grid">
+    <thead>
+      <tr>
+        <th data-type="number">Возраст</th>
+        <th data-type="string">Имя</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>5</td>
+        <td>Вася</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Петя</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>Женя</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>Маша</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Илья</td>
+      </tr>
+    </tbody>
+  </table>
+  <script>
+    document.querySelector('thead').addEventListener('click', (e) => {
+      let th = e.target;
+      let tbody = document.querySelector('tbody');
+
+      if (th.tagName != 'TH') return;
+
+      let rows = Array.from(tbody.rows);
+      let index = th.cellIndex;
+
+      if (th.dataset.type == 'number') {
+        rows.sort((a, b) => a.cells[index].innerHTML - b.cells[index].innerHTML);
+      } else if (th.dataset.type == 'string') {
+        rows.sort((a, b) => {
+          return (a.cells[index].innerHTML > b.cells[index].innerHTML) ? 1 : -1;
+        });
+      }
+
+      tbody.append(...rows);
+    });
+
+
+  </script>
+</body>
+
+</html>

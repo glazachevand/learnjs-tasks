@@ -1,0 +1,1 @@
+document  - HTMLDocument – Document - Node – EventTarget - Object
